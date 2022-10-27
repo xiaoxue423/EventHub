@@ -1,18 +1,16 @@
 class EventHub {
-  cache = {};
+  private cache = {};
   // {
   //   '楚天都市报':[fn1,fn2,fn3],
   //   '羊城晚报':[fn1,fn2,fn3],
   // }
   on(eventName: string, fn: any) {
-    //把fn推进this.cache[eventName]数组
-    //eventName = 楚天,fn
+    //把fn推进this.cache[eventName]数组  eventName = 楚天,fn
     this.cache[eventName] = this.cache[eventName] || [];
     this.cache[eventName].push(fn);
   }
   emit(eventName: string, data?) {
     //把this.cache[eventName]里面的fn全部依次调用
-    if (this.cache[eventName] === undefined) return;
     (this.cache[eventName] || []).forEach((fn) => fn(data));
   }
   off(eventName: string, fn) {
@@ -25,6 +23,12 @@ class EventHub {
 
 export default EventHub;
 
+/**
+ * 帮助函数 indexOf
+ * @param array 
+ * @param item 
+ * @returns 
+ */
 function indexOf(array, item) {
   if (array === undefined) return -1;
   let index = -1;
