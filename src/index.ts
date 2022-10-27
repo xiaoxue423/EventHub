@@ -15,21 +15,24 @@ class EventHub {
     if (this.cache[eventName] === undefined) return;
     (this.cache[eventName] || []).forEach((fn) => fn(data));
   }
-  off(eventName: string,fn){
-    if (this.cache[eventName] === undefined) return;
-    let index
-    for(let i=0;i<this.cache[eventName].length;i++){
-      if(this.cache[eventName][i] === fn){
-        index = i;
-        break;
-      }
-    }
-    if(index === undefined){
-      return;
-    }else {
-      this.cache[eventName].splice(index, 1);
-    }
+  off(eventName: string, fn) {
+    //把fn从this.cache[eventName] 中删掉
+    this.cache[eventName]  = this.cache[eventName] || [];
+    let index = indexOf(this.cache[eventName], fn);
+    if (index === -1) return;
+    this.cache[eventName].splice(index, 1);
   }
 }
 
 export default EventHub;
+
+function indexOf(array, item) {
+  let index = -1;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === item) {
+      index = i;
+      break;
+    }
+  }
+  return index;
+}
