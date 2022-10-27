@@ -17,7 +17,6 @@ class EventHub {
   }
   off(eventName: string, fn) {
     //把fn从this.cache[eventName] 中删掉
-    this.cache[eventName]  = this.cache[eventName] || [];
     let index = indexOf(this.cache[eventName], fn);
     if (index === -1) return;
     this.cache[eventName].splice(index, 1);
@@ -27,6 +26,7 @@ class EventHub {
 export default EventHub;
 
 function indexOf(array, item) {
+  if (array === undefined) return -1;
   let index = -1;
   for (let i = 0; i < array.length; i++) {
     if (array[i] === item) {
